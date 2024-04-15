@@ -1,0 +1,107 @@
+{% extends "site_app/global/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-color: #ffffff; /* Cor de fundo */
+    }
+
+    .cadastro {
+        background-color: #ffffff; /* Cor de fundo */
+        padding: 30px; /* Espaçamento interno */
+        border-radius: 10px; /* Borda arredondada */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    }
+    
+    .cadastro h3 {
+        color: #007bff; /* Cor do texto */
+        font-size: 24px; /* Tamanho da fonte */
+        font-weight: bold; /* Negrito */
+        text-align: center; /* Alinhamento central */
+    }
+    
+    .cadastro p {
+        color: #343a40; /* Cor do texto */
+        font-size: 16px; /* Tamanho da fonte */
+        line-height: 1.5; /* Espaçamento entre linhas */
+        margin-bottom: 10px; /* Espaçamento inferior */
+        text-align: center; /* Alinhamento central */
+    }
+
+    .meio {
+        background-color: #ffffff; /* Cor de fundo */
+        padding: 20px; /* Espaçamento interno */
+    }
+
+    .meio p {
+        color: #343a40; /* Cor do texto */
+        font-size: 16px; /* Tamanho da fonte */
+        line-height: 1.5; /* Espaçamento entre linhas */
+        margin-bottom: 10px; /* Espaçamento inferior */
+        text-align: center; /* Alinhamento central */
+    }   
+    
+    </style>
+<body>
+<div class="cadastro" style="background-image: url('{%static 'img/bg.png'%}');  background-position: center; background-size: cover; background-repeat: no-repeat;">    
+    <br><br>
+    <h3> Cadastro de Profissionais</h3><br>
+
+    <form action="{% url 'cadastro' %}" method="post">
+        <div class="form-row">
+        {% csrf_token %}
+        <div class="col">
+        <input type="text" class="form-control" name="nome" placeholder="Nome completo" />
+        </div>
+        <div class="col-30">
+        <input type="date" class="form-control" name="datadenascimento" placeholder="Data de nascimento" />
+        </div>
+        <div class="col">
+        <input type="text" class="form-control" name="email" placeholder="example@example.com" />
+        </div>
+        <div class="col">
+        <input type="text" class="form-control" name="pais" placeholder="País que deseja trabalhar" />
+        </div>
+        <div class="col-30">
+        <button type="submit" class="btn btn-success">Salvar</button>
+        </div>
+        </div>        
+    </form>
+</div>
+
+<div class="meio">   
+            <br>
+            {% if dados %}
+            <p> {{ mensagem }} </p>
+            <br>
+            {% if var %}
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Data de Nascimento</th>
+                    <th>Email</th>
+                    <th>País de trabalho</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for cadastrado in cadastrados %}
+                    <tr>
+                        <td width="10%">{{cadastrado.id}}</td>
+                        <td width="25%">{{cadastrado.nome}}</td>
+                        <td width="20%">{{cadastrado.datadenascimento|date:" d/m/Y" }}</td>
+                        <td width="25%">{{cadastrado.email}}</td>
+                        <td width="25%">{{cadastrado.pais}}</td>
+                    </tr>                
+                    {% endfor %}
+                </tbody>
+            </table>^
+            {% endif %}
+            {% endif %} 
+        </div>
+</div>
+</body>
+{% endblock content %}
+

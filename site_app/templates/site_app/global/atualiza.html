@@ -1,0 +1,87 @@
+{% extends "site_app/global/base.html" %}
+{% load static %}
+{% block content %}
+<style>
+    body {
+        background-color: #ffffff; /* Cor de fundo */
+    }
+
+    .atualizar {
+        background-color: #ffffff; /* Cor de fundo */
+        padding: 30px; /* Espaçamento interno */
+        border-radius: 10px; /* Borda arredondada */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    }
+    
+    .atualizar h3 {
+        color: #007bff; /* Cor do texto */
+        font-size: 24px; /* Tamanho da fonte */
+        font-weight: bold; /* Negrito */
+        text-align: center; /* Alinhamento central */
+    }
+    
+    .atualizar p {
+        color: #343a40; /* Cor do texto */
+        font-size: 16px; /* Tamanho da fonte */
+        line-height: 1.5; /* Espaçamento entre linhas */
+        margin-bottom: 10px; /* Espaçamento inferior */
+        text-align: center; /* Alinhamento central */
+    }
+
+    .meio {
+        background-color: #ffffff; /* Cor de fundo */
+        padding: 20px; /* Espaçamento interno */
+    }
+    
+    
+    </style>
+<body>
+    <br><br>
+<div class="atualizar" style="background-image: url('{%static 'img/bg.png'%}');  background-position: center; background-size: cover; background-repeat: no-repeat;">
+    <h3> Atualizar Cadastro </h3><br>
+    <form action="{% url 'delatualiza' %}" method="post">
+    <div class="form-row">
+    {% csrf_token %}
+    <div class="col">
+    <input type="text" class="form-control" name="nome" placeholder="Digite o nome para pesquisar" />
+    </div>
+    <div class="col-30">
+    <button type="submit" class="btn btn-success">Pesquisar</button>
+    </div>
+    </div>        
+</form><br>
+    {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+    {% endif %}
+</div>
+    <br>
+<div class="meio">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Data de Nascimento</th>
+            <th>Email</th>
+            <th>País de trabalho</th>
+            <th></th>
+        </tr>
+        </thead>
+    <tbody>
+        {% for cadastrado in cadastrados %}                   
+        <tr>
+            <td width="5%">{{cadastrado.id}}</td>
+            <td width="35%">{{cadastrado.nome}}</td>
+            <td width="20%">{{cadastrado.datadenascimento|date:" d/m/Y" }}</td>
+            <td width="25%">{{cadastrado.email}}</td>
+            <td width="20%">{{cadastrado.pais}}</td>
+            <td width="30%"><a class="btn btn-primary" href="{% url "atualizar" cadastrado.id %}">Atualizar</a></td>
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</div>
+{% endblock content %}
+
